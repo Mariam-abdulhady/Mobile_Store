@@ -4,7 +4,8 @@ const app = express()
 require('dotenv').config()
 const mongoose=require('mongoose')
 const routes=require('./routes/index.route')
-const morgan=require('morgan')
+const morgan=require('morgan')//جزئية الloggin
+const cookieParser=require('cookie-parser')
 //database connection
 function dbconnection(){
     const url=process.env.DB_URL
@@ -15,21 +16,24 @@ function dbconnection(){
         console.log("db not connected")
     })
 }
+// const crypto=require('crypto')
+// function generateAccessToken(){
+// let secret=crypto.randomBytes(32).toString("hex")
+// console.log(secret);
+
+// }
+// console.log(SECRET_TOKEN);
+// generateAccessToken()
+
 app.use(morgan("dev"))
 app.use(express.json())
+app.use(cookieParser())
 app.use("/api",routes)
+app.use("/api/images",express.static("./uploads"))
 app.all("*",(req,res)=>{
     res.status(404).send({message:"Invalid Route"})
 })
 
-
-
-// app.get('/', (req, res) => res.send('Hello World!'))
-
-// app.post('/', (req, res) => {
-//     console.log(req.body)
-//     res.json({ success: true })
-// })
 const PORT =process.env.PORT|| 3000
 
 app.listen(PORT, dbconnection(),() => console.log(`server is running ${PORT}`))

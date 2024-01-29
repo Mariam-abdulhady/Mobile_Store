@@ -1,4 +1,12 @@
 const authRoutes=require("./auth.route")
 const app=require("express").Router()
+const userRoutes=require("./user.route")
+const storeRoutes=require('./store.route')
+const productRoutes=require("./product.rout")
+const orderRoutes=require("./order.route")
 app.use("/auth",authRoutes)
+app.use("/user",userRoutes)
+app.use("/store",storeRoutes)
+app.use("/product",productRoutes)
+app.use("/order",orderRoutes)
 module.exports=app
